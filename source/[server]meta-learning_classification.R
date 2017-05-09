@@ -45,7 +45,7 @@ if(alg %in% algs){
   validation$predictions[,4] <- as.numeric(as.character(validation$predictions[,4]))
   writeToFile(validation$predictions,paste(alg,trans[i],sep = "_"),"predictions")
 }
-source("plotResults.R")
-(test <- plotBarImpactPerTrans_RealvsPred_classification(algs[1],trans[1],trans[1],FALSE,nrTrees = "1Tree",customOrNot = ""))
+#source("plotResults.R")
+#(test <- plotBarImpactPerTrans_RealvsPred_classification(algs[1],trans[1],trans[1],FALSE,nrTrees = "1Tree",customOrNot = ""))
 
 
