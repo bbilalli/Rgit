@@ -3,13 +3,13 @@ args = commandArgs(trailingOnly = TRUE)
 
 source("utilityFunctions.R") #additional functions 
 source("feature-extraction.R") #functions for performing feauture extraction and selection : PCA + VARIMAX, PARTIAL CORRELATIONS
-source("meta-learning-helper.R") #functions for performing meta-learning
+#source("meta-learning-helper.R") #functions for performing meta-learning
 source("meta-learning-helper_classification.R")
 
 algs <- c("weka.J48","weka.NaiveBayes","weka.JRip","weka.PART","weka.IBk","weka.Logistic")
 #algs <- c("weka.JRip","weka.PART","weka.IBk","weka.Logistic")
 trans <- c("All",transformations)
-alg <- algs[1]
+alg <- args[1]
 
 if(alg == "weka.J48") {trans <- c("All", transformationsJ48)} else
 if(alg == "weka.PART") {trans <- c("All", transformationsPART)} else
@@ -41,9 +41,9 @@ if(alg %in% algs){
                                                  transformation=trans[i],
                                                  nrTrees = 1)
   
-  writeToFile(validation$transNeutralZonesResults,paste(alg,trans[i],sep = "_"),"confMatrix")
+  writeToFile(validation$transNeutralZonesResults,alg,paste(alg,trans[i],sep = "_"),"confMatrix")
   validation$predictions[,4] <- as.numeric(as.character(validation$predictions[,4]))
-  writeToFile(validation$predictions,paste(alg,trans[i],sep = "_"),"predictions")
+  writeToFile(validation$predictions,alg,paste(alg,trans[i],sep = "_"),"predictions")
 }
 #source("plotResults.R")
 #(test <- plotBarImpactPerTrans_RealvsPred_classification(algs[1],trans[1],trans[1],FALSE,nrTrees = "1Tree",customOrNot = ""))
