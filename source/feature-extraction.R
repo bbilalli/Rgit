@@ -30,7 +30,8 @@ performPCA <- function(df,variance=90,old,deltas=FALSE){
 #     
 #   } 
   
-  scaled.mf <- scale(mf,center = TRUE,scale=TRUE)
+  #scaled.mf <- scale(mf,center = TRUE,scale=TRUE)
+  scaled.mf <- mf
   print(dim(scaled.mf))
   md.pca <- PCA(scaled.mf,axes = c(1,2),ncp = 30, graph=FALSE) #do the pca and varimax only with the transformable set of features
   pca.ds.eig <- md.pca$eig
@@ -320,7 +321,7 @@ combineLatentMatrix <-function (ds,dim,measure,relevantDims){
   
   colnames(new.ds)[c(1:ncol(new.ds))] <- dimensionNames
   new.ds <- cbind(new.ds,ds[,which(colnames(ds)==measure)])#add the response to the latent space to use it in the correlation analysis
-  new.ds <- scale(new.ds)
+  #new.ds <- scale(new.ds)
   colnames(new.ds)[ncol(new.ds)] <- "response"
   return(new.ds)
 }
@@ -357,11 +358,11 @@ combineDeltaLatentMatrix <-function (ds,dim,relevantDims){
   colnames(new.ds)[c(1:ncol(new.ds))] <- dimensionNames
   colnames(new.delta.ds)[c(1:ncol(new.delta.ds))] <- dimensionNames
   
-  new.ds <- scale(new.ds)
+  #new.ds <- scale(new.ds)
   
-  new.delta.ds <- scale(new.delta.ds, center = attributes(new.ds)$'scaled:center', scale = attributes(new.ds)$'scaled:scale') #the scaled latent deltas
+  #new.delta.ds <- scale(new.delta.ds, center = attributes(new.ds)$'scaled:center', scale = attributes(new.ds)$'scaled:scale') #the scaled latent deltas
   
-  latent.delta <- new.ds - new.delta.ds
+  #latent.delta <- new.ds - new.delta.ds
   #latent.delta <- matrix(0,nrow(new.ds),ncol(new.ds))
   # for(j in 1:nrow(new.ds)){
   #   latent.delta[j,] <- new.ds[j,]-new.delta.ds[j,]

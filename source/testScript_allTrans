@@ -1,7 +1,7 @@
 #!/bin/bash
-#declare -a algs=('weka.J48' 'weka.NaiveBayes' 'weka.JRip' 'weka.PART' 'weka.IBk' 'weka.Logistic')
+declare -a algs=('weka.J48' 'weka.NaiveBayes' 'weka.JRip' 'weka.PART' 'weka.IBk' 'weka.Logistic')
 #declare -a algs=('weka.NaiveBayes' 'weka.JRip')
-declare -a algs=('weka.IBk')
+#declare -a algs=('weka.IBk')
 #declare -a algs=('weka.J48' 'weka.PART' 'weka.IBk')
 #parallel Rscript meta-learning.R {} ::: ${algs[*]} #run the .R file in parallel with the arguments given by the array
 parallel Rscript meta-learning_classification_allTrans.R {} ::: ${algs[*]} #run the .R file in parallel with the arguments given by the array

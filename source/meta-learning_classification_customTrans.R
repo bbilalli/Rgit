@@ -39,7 +39,7 @@ if(alg %in% algs){
                                                  neutralZone=0,
                                                  folds="LOOV",
                                                  transformation=trans[i],
-                                                 nrTrees = 50)
+                                                 nrTrees = 100)
   
   writeToFile(validation$transNeutralZonesResults,alg,paste(alg,trans[i],sep = "_"),"confMatrix")
   validation$predictions[,4] <- as.numeric(as.character(validation$predictions[,4]))
