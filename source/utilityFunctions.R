@@ -77,7 +77,7 @@ readFile<-function(algName,readDelta=FALSE){
 }
 
 readClassificationFile <- function(alg){
-  file <- paste(c("..//md//relativeImp//asClassification//zeroAsRange//0.0001//",alg,"_MD_classification.csv"),collapse="")
+  file <- paste(c("..//md//relativeImp//asClassification//",alg,"_MD_classification.csv"),collapse="")
   if(alg == "weka.IBk" | alg =="weka.PART"){
     md <- read.csv(file, header=TRUE, dec=".", sep=",",colClasses= c(rep("character",3),rep("numeric",63),rep("character",1)))
   } else if (alg =="weka.J48" | alg =="weka.Logistic" | alg=="weka.NaiveBayes"){
