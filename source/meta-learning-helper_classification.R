@@ -85,6 +85,13 @@ getConfusionMatrixNZnew <- function(model,test_md,validate_md,neutralZone,transA
   if(dim(test_md)[1]>0){
     #predicted <- predict(model,test_md,OOB=TRUE)[,1] # predictions
     predicted <- predict(model,test_md,OOB=TRUE)
+	
+	predictionsAsProb <- predict(model,test_md,type="prob",OOB=TRUE) #TO DO: check  the probabilities 
+    negativeProb <- sapply(predictionsAsProb,function(x){x[,1]})
+    poositiveProb <- sapply(predictionsAsProb,function(x){x[,2]})
+    neutralProb <- sapply(predictionsAsProb,function(x){x[,3]})
+    df.predictionsAsProb <- cbind(negativeProb,poositiveProb,neutralProb)
+	
     #print(predicted)
     real <- test_md$response #real accuracies
     real.before <- validate_md$response #the real response before transformation was applied
@@ -129,7 +136,7 @@ getConfusionMatrixNZnew <- function(model,test_md,validate_md,neutralZone,transA
   else confMatrix <- rep(0,6)
   
   results$confMatrix <- confMatrix #new
-  predictionResults <- as.data.frame(cbind(Dataset=test_md$Dataset,Transformation=test_md$Transformation,Attributes=test_md$Attributes,predicted)) #rename also the columns
+  predictionResults <- as.data.frame(cbind(Dataset=test_md$Dataset,Transformation=test_md$Transformation,Attributes=test_md$Attributes,predicted,df.predictionsAsProb)) #rename also the columns
   results$predictedVals <- predictionResults #new
   return(results) #new
   #return(confMatrix)
