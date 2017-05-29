@@ -11,10 +11,6 @@ algs <- c("weka.J48","weka.NaiveBayes","weka.JRip","weka.PART","weka.IBk","weka.
 trans <- c("All",transformations)
 alg <- args[1]
 
-
-
-
-
     
 if(alg %in% algs){
   
@@ -33,17 +29,19 @@ if(alg %in% algs){
   md.trans$response <- as.factor(md.trans$response)
   md.trans <- cbind(new.md$md.trans[,-ncol(new.md$md.trans)],"responseNumeric"=new.md$md.trans$response,"response"=md.trans$response)
 
+  #for(i in 2:length(trans)){
   i= 1
-  validation <- performValidation_classification(md.ds,
+ 	validation <- performValidation_classification(md.ds,
                                                  md.trans,
                                                  neutralZone=0,
                                                  folds="LOOV",
                                                  transformation=trans[i],
                                                  nrTrees = 100)
   
-  writeToFile(validation$transNeutralZonesResults,alg,paste(alg,trans[i],sep = "_"),"confMatrix")
-  validation$predictions[,4] <- as.numeric(as.character(validation$predictions[,4]))
-  writeToFile(validation$predictions,alg,paste(alg,trans[i],sep = "_"),"predictions")
+ 	writeToFile(validation$transNeutralZonesResults,alg,paste(alg,trans[i],sep = "_"),"confMatrix")
+ 	validation$predictions[,4] <- as.numeric(as.character(validation$predictions[,4]))
+  	writeToFile(validation$predictions,alg,paste(alg,trans[i],sep = "_"),"predictions")
+	#}
 }
 #source("plotResults.R")
 #(test <- plotBarImpactPerTrans_RealvsPred_classification(algs[1],trans[1],trans[1],FALSE,nrTrees = "1Tree",customOrNot = ""))

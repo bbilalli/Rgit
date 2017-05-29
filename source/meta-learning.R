@@ -5,22 +5,22 @@ source("utilityFunctions.R") #additional functions
 source("feature-extraction.R") #functions for performing feauture extraction and selection : PCA + VARIMAX, PARTIAL CORRELATIONS
 source("meta-learning-helper.R") #functions for performing meta-learning
 
-#algs <- c("weka.J48","weka.NaiveBayes","weka.JRip","weka.PART","weka.IBk","weka.Logistic")
-algs <- c("weka.J48","weka.PART","weka.IBk","weka.Logistic")
+algs <- c("weka.J48","weka.NaiveBayes","weka.JRip","weka.PART","weka.IBk","weka.Logistic")
+#algs <- c("weka.J48","weka.PART","weka.IBk","weka.Logistic")
 
 alg <- args[1]
 trans <- c("All",transformations)
 
-#if(alg == "weka.J48") {trans <- c("All",transformationsJ48)} else 
-#if(alg == "weka.PART") {trans <- c("All",transformationsPART)} else 
-#if(alg == "weka.IBk") {trans <- c("All",transformationsIBk)} else 
-#{trans <- c("All",transformationsLog)}
+if(alg == "weka.J48") {trans <- c("All",transformationsJ48)} else 
+if(alg == "weka.PART") {trans <- c("All",transformationsPART)} else 
+if(alg == "weka.IBk") {trans <- c("All",transformationsIBk)} else 
+{trans <- c("All",transformationsLog)}
 
 if(alg %in% algs){
   message(alg)
   md.ds <- getDS(alg,readDelta=TRUE)
   md.trans <- getTransformations(alg,readDelta=TRUE,"")
-  #md.trans <- md.trans[md.trans$Transformation %in% trans,] #remove the bad transformations
+  md.trans <- md.trans[md.trans$Transformation %in% trans,] #remove the bad transformations
 
   #it used to be md.ds instead of md.trans
   pca <- performPCA(md.trans,variance=90,old=FALSE,deltas=FALSE)
