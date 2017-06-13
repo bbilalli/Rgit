@@ -228,6 +228,13 @@ printForArrayInJava <- function(datasets){
   return(str)
 }
 
+convertToClassification <- function(md,zeroRange){
+  colnames(md)[which(colnames(md)=="response")] <- "responseNumeric"
+  response <- getImpactAsFactor(md$responseNumeric,zeroRange)
+  md <- cbind(md,response)
+  return(md)
+}
+
 getClassAsFactor <- function(x){
   responseAsFactor <- character(length(x))
   responseAsFactor[x ==2] <- "POS"
@@ -237,6 +244,20 @@ getClassAsFactor <- function(x){
   return(responseAsFactor)
 }
 
+getImpactAsFactor <- function(x,zeroRange){
+  responseAsFactor <- character(length(x))
+  if(x==0){
+    responseAsFactor[x >zeroRange] <- "POSITIVE"
+    responseAsFactor[x < zeroRange] <- "NEGATIVE"
+    responseAsFactor[x == zeroRange] <- "ZERO"
+  } else {
+    responseAsFactor[x >zeroRange] <- "POSITIVE"
+    responseAsFactor[x < -zeroRange] <- "NEGATIVE"
+    responseAsFactor[(-zeroRange < x) & (x < zeroRange)] <- "ZERO"
+  }
+  responseAsFactor <- as.factor(responseAsFactor)
+  return(responseAsFactor)
+}
 
 getImpactAsFactor <- function(x){
   responseAsFactor <- character(length(x))

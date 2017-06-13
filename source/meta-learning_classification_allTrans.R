@@ -24,9 +24,8 @@ if(alg %in% algs){
   new.md <-prepareMetaFeatures(md.latent$latent.ds,md.latent$latent.trans,md.ds,md.trans,"pa_delta")
   
   md.ds <- new.md$md.ds
-  md.trans <- getTransformations(alg,TRUE,"classification")
-  md.trans$response <- as.factor(md.trans$response)
-  md.trans <- cbind(new.md$md.trans[,-ncol(new.md$md.trans)],"responseNumeric"=new.md$md.trans$response,"response"=md.trans$response)
+  if(alg =="weka.IBk") t<-0 else t <- 0.0001
+  md.trans <- convertToClassification(new.md$md.trans,t) #if IBK it should be 0
 
   #for(i in 2:length(trans)){
   i= 1
@@ -35,14 +34,14 @@ if(alg %in% algs){
                                                  neutralZone=0,
                                                  folds="LOOV",
                                                  transformation=trans[i],
-                                                 nrTrees = 200)
+                                                 nrTrees = 100)
   
  	writeToFile(validation$transNeutralZonesResults,alg,paste(alg,trans[i],sep = "_"),"confMatrix")
- 	validation$predictions[,4] <- as.numeric(as.character(validation$predictions[,4]))
-	validation$predictions[,5] <- as.numeric(as.character(validation$predictions[,5]))
-	validation$predictions[,6] <- as.numeric(as.character(validation$predictions[,6]))
-	validation$predictions[,7] <- as.numeric(as.character(validation$predictions[,7]))
-  	writeToFile(validation$predictions,alg,paste(alg,trans[i],sep = "_"),"predictions")
+ 	#validation$predictions[,4] <- as.numeric(as.character(validation$predictions[,4]))
+	#validation$predictions[,5] <- as.numeric(as.character(validation$predictions[,5]))
+	#validation$predictions[,6] <- as.numeric(as.character(validation$predictions[,6]))
+	#validation$predictions[,7] <- as.numeric(as.character(validation$predictions[,7]))
+  writeToFile(validation$predictions,alg,paste(alg,trans[i],sep = "_"),"predictions")
 	#}
 }
 #source("plotResults.R")
