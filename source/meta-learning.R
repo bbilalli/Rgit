@@ -20,7 +20,7 @@ if(alg %in% algs){
   message(alg)
   md.ds <- getDS(alg,readDelta=TRUE)
   md.trans <- getTransformations(alg,readDelta=TRUE,"")
-  md.trans <- md.trans[md.trans$Transformation %in% trans,] #remove the bad transformations
+  #md.trans <- md.trans[md.trans$Transformation %in% trans,] #remove the bad transformations
 
   #it used to be md.ds instead of md.trans
   pca <- performPCA(md.trans,variance=90,old=FALSE,deltas=FALSE)
@@ -30,12 +30,13 @@ if(alg %in% algs){
   new.md <-prepareMetaFeatures(md.latent$latent.ds,md.latent$latent.trans,md.ds,md.trans,"pa_delta")
   
   #for(i in 1:1){
-i=1    validation <- performValidation(new.md$md.ds,
+  i=1    
+  validation <- performValidation(new.md$md.ds,
                                     new.md$md.trans,
                                     neutralZone=seq(0,0.01,0.0001),
                                     folds="LOOV",
                                     transformation=trans[i],
-                                    nrTrees = 1)
+                                    nrTrees = 100)
     
     fileName <- paste(alg,trans[i],sep = "_")
     
