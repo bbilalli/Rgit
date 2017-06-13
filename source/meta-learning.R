@@ -30,18 +30,19 @@ if(alg %in% algs){
   new.md <-prepareMetaFeatures(md.latent$latent.ds,md.latent$latent.trans,md.ds,md.trans,"pa_delta")
   
   #for(i in 1:1){
-    validation <- performValidation(new.md$md.ds,
+i=1    validation <- performValidation(new.md$md.ds,
                                     new.md$md.trans,
                                     neutralZone=seq(0,0.01,0.0001),
                                     folds="LOOV",
                                     transformation=trans[i],
-                                    nrTrees = 100)
+                                    nrTrees = 1)
     
     fileName <- paste(alg,trans[i],sep = "_")
     
     writeToFile(validation$transNeutralZonesResults,alg,fileName,"confMatrix")
     validation$predictions[,4] <- as.numeric(as.character(validation$predictions[,4]))
     writeToFile(validation$predictions,alg,paste(alg,trans[i],sep = "_"),"predictions")
+  #}
   #}
   
 } else {print("WRONG INPUT!")}

@@ -27,7 +27,7 @@ performValidation <-function(md.ds_allTrans,md.trans_allTrans,neutralZone=0,fold
   for(i in 1:length(folds)){ #10){#
     print(i)
     validate_md <- md.ds[folds[[i]],] #the rows of the fold, actually the datasets before the transformations are applied
-    train_md <- md.trans[-(md.trans$Dataset %in% validate_md$Dataset),]# when delta
+    train_md <- md.trans[-which(md.trans$Dataset %in% validate_md$Dataset),]# when delta
     
     test_md <- md.trans[md.trans$Dataset %in% validate_md$Dataset,]
     results.per.fold <- getPredictionsConfMatrix(formula,train_md,validate_md,test_md,neutralZone,nrTrees,transAll)
