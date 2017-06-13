@@ -11,10 +11,10 @@ algs <- c("weka.J48","weka.NaiveBayes","weka.JRip","weka.PART","weka.IBk","weka.
 alg <- args[1]
 trans <- c("All",transformations)
 
-if(alg == "weka.J48") {trans <- c("All",transformationsJ48)} else 
-if(alg == "weka.PART") {trans <- c("All",transformationsPART)} else 
-if(alg == "weka.IBk") {trans <- c("All",transformationsIBk)} else 
-{trans <- c("All",transformationsLog)}
+#if(alg == "weka.J48") {trans <- c("All",transformationsJ48)} else 
+#if(alg == "weka.PART") {trans <- c("All",transformationsPART)} else 
+#if(alg == "weka.IBk") {trans <- c("All",transformationsIBk)} else 
+#{trans <- c("All",transformationsLog)}
 
 if(alg %in% algs){
   message(alg)
@@ -29,8 +29,7 @@ if(alg %in% algs){
   md.latent <- performFeatureExtraction(md.rot,md.ds,md.trans,measure ="pa",sign=0.05,withWeights=FALSE,union=FALSE)
   new.md <-prepareMetaFeatures(md.latent$latent.ds,md.latent$latent.trans,md.ds,md.trans,"pa_delta")
   
-  for(i in 1:1){
-	#i=8
+  #for(i in 1:1){
     validation <- performValidation(new.md$md.ds,
                                     new.md$md.trans,
                                     neutralZone=seq(0,0.01,0.0001),
@@ -43,7 +42,7 @@ if(alg %in% algs){
     writeToFile(validation$transNeutralZonesResults,alg,fileName,"confMatrix")
     validation$predictions[,4] <- as.numeric(as.character(validation$predictions[,4]))
     writeToFile(validation$predictions,alg,paste(alg,trans[i],sep = "_"),"predictions")
-  }
+  #}
   
 } else {print("WRONG INPUT!")}
 

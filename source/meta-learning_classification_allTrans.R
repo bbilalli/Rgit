@@ -7,7 +7,6 @@ source("feature-extraction.R") #functions for performing feauture extraction and
 source("meta-learning-helper_classification.R")
 
 algs <- c("weka.J48","weka.NaiveBayes","weka.JRip","weka.PART","weka.IBk","weka.Logistic")
-#algs <- c("weka.JRip","weka.PART","weka.IBk","weka.Logistic")
 trans <- c("All",transformations)
 alg <- args[1]
 
