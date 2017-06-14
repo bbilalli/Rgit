@@ -228,17 +228,17 @@ printForArrayInJava <- function(datasets){
   return(str)
 }
 
-convertToClassification <- function(md,zeroRange){
+convertToClassification <- function(md,rangeOfZero){
   colnames(md)[which(colnames(md)=="response")] <- "responseNumeric"
-  response <- getImpactAsFactor(md$responseNumeric,zeroRange)
+  response <- getImpactAsFactor(md$responseNumeric,rangeOfZero)
   md <- cbind(md,response)
   return(md)
 }
 
 getClassAsFactor <- function(x){
   responseAsFactor <- character(length(x))
-  responseAsFactor[x ==2] <- "POS"
-  responseAsFactor[x ==1] <- "NEG"
+  responseAsFactor[x ==2] <- "POSITIVE"
+  responseAsFactor[x ==1] <- "NEGATIVE"
   responseAsFactor[x ==3] <- "ZERO"
   responseAsFactor <- as.factor(responseAsFactor)
   return(responseAsFactor)
@@ -259,14 +259,14 @@ getImpactAsFactor <- function(x,zeroRange){
   return(responseAsFactor)
 }
 
-getImpactAsFactor <- function(x){
-  responseAsFactor <- character(length(x))
-  responseAsFactor[x >0] <- "Pos"
-  responseAsFactor[x < 0] <- "Neg"
-  responseAsFactor[x == 0] <- "Zero"
-  responseAsFactor <- as.factor(responseAsFactor)
-  return(responseAsFactor)
-}
+# getImpactAsFactor <- function(x){
+#   responseAsFactor <- character(length(x))
+#   responseAsFactor[x >0] <- "Pos"
+#   responseAsFactor[x < 0] <- "Neg"
+#   responseAsFactor[x == 0] <- "Zero"
+#   responseAsFactor <- as.factor(responseAsFactor)
+#   return(responseAsFactor)
+# }
 
 convertDFtoARFF <- function(ds,alg){
   responseAsFactor <- character(dim(ds)[1])
