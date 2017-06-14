@@ -24,7 +24,9 @@ if(alg %in% algs){
   new.md <-prepareMetaFeatures(md.latent$latent.ds,md.latent$latent.trans,md.ds,md.trans,"pa_delta")
   
   md.ds <- new.md$md.ds
-  if(alg =="weka.IBk") t<-0 else t <- 0.0001
+  t <- 0.0001
+  if(alg =="weka.IBk") t <- 0
+
   md.trans <- convertToClassification(new.md$md.trans,t) #if IBK it should be 0
 
   #for(i in 2:length(trans)){
