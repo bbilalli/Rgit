@@ -9,7 +9,7 @@ source("meta-learning-helper_classification.R")
 algs <- c("weka.J48","weka.NaiveBayes","weka.JRip","weka.PART","weka.IBk","weka.Logistic")
 trans <- c("All",transformations)
 alg <- args[1]
-
+ml_alg <- "randomForest"
     
 if(alg %in% algs){
   
@@ -27,7 +27,8 @@ if(alg %in% algs){
   if(alg =="weka.IBk") t<-0 else t <- 0.0001
   
   md.trans <- convertToClassification(new.md$md.trans,t) #if IBK it should be 0
-
+  
+  if(ml_alg =="randomForest") md.trans <- cbind(md.trans[,1:3],na.roughfix(md.trans[,4:dim(md.trans)[2]]))
   #for(i in 2:length(trans)){
   i= 1
  	validation <- performValidation_classification(md.ds,
@@ -36,7 +37,7 @@ if(alg %in% algs){
                                                  folds="LOOV",
                                                  transformation=trans[i],
                                                  nrTrees = 100,
-                                                 algorithm = "randomForest")
+                                                 algorithm = ml_alg)
   
  	writeToFile(validation$transNeutralZonesResults,alg,paste(alg,trans[i],sep = "_"),"confMatrix")
  	#validation$predictions[,4] <- as.numeric(as.character(validation$predictions[,4]))

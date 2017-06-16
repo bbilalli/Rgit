@@ -10,7 +10,7 @@ algs <- c("weka.J48","weka.NaiveBayes","weka.JRip","weka.PART","weka.IBk","weka.
 
 alg <- args[1]
 trans <- c("All",transformations)
-
+ml_alg <- "randomForest"
 #if(alg == "weka.J48") {trans <- c("All",transformationsJ48)} else 
 #if(alg == "weka.PART") {trans <- c("All",transformationsPART)} else 
 #if(alg == "weka.IBk") {trans <- c("All",transformationsIBk)} else 
@@ -29,6 +29,8 @@ if(alg %in% algs){
   md.latent <- performFeatureExtraction(md.rot,md.ds,md.trans,measure ="pa",sign=0.05,withWeights=FALSE,union=FALSE)
   new.md <-prepareMetaFeatures(md.latent$latent.ds,md.latent$latent.trans,md.ds,md.trans,"pa_delta")
   
+  if(ml_alg == "randomForest") new.md$md.trans <- cbind(new.md$md.trans[,1:3],na.roughfix(new.md$md.trans[,4:dim(new.md$md.trans)[2]]))
+  
   #for(i in 1:1){
   i=1    
   validation <- performValidation(new.md$md.ds,
@@ -37,7 +39,7 @@ if(alg %in% algs){
                                     folds="LOOV",
                                     transformation=trans[i],
                                     nrTrees = 100,
-                                    algorithm = "randomForest")
+                                    algorithm = ml_alg)
     
     fileName <- paste(alg,trans[i],sep = "_")
     
