@@ -36,7 +36,8 @@ if(alg %in% algs){
                                     neutralZone=seq(0,0.01,0.0001),
                                     folds="LOOV",
                                     transformation=trans[i],
-                                    nrTrees = 100)
+                                    nrTrees = 100,
+                                    algorithm = "randomForest")
     
     fileName <- paste(alg,trans[i],sep = "_")
     

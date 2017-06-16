@@ -30,7 +30,7 @@ performValidation <-function(md.ds_allTrans,md.trans_allTrans,neutralZone=0,fold
     train_md <- md.trans[-which(md.trans$Dataset %in% validate_md$Dataset),]# when delta
     
     test_md <- md.trans[md.trans$Dataset %in% validate_md$Dataset,]
-    results.per.fold <- getPredictionsConfMatrix(formula,train_md,validate_md,test_md,neutralZone,nrTrees,transAll)
+    results.per.fold <- getPredictionsConfMatrix(formula,train_md,validate_md,test_md,neutralZone,nrTrees,transAll,algorithm)
     folds.results[[i]] <- results.per.fold
   }
   matrixTransNeutralZones <-0
@@ -55,9 +55,10 @@ getFolds <- function(datasets_md,folds="LOOV"){
   }
 }
 
-getPredictionsConfMatrix<-function(formula,train_md,validate_md,test_md_orig,neutralZone,nrTrees,transAll){
+getPredictionsConfMatrix<-function(formula,train_md,validate_md,test_md_orig,neutralZone,nrTrees,transAll,algorithm){
 
-  model <- cforest(formula,data=train_md,controls = cforest_control(ntree=nrTrees))
+  if(algorithm == "randomForest") model <- randomForest(formula,data=train_md,ntree=nrTrees,mtry = (length(formula)-1))
+  else if(algorithm =="cforest") model <- cforest(formula,data=train_md,controls = cforest_control(ntree=nrTrees,mtry = (length(formula)-1)))
     #model <- svm(formula,data=train_md)
   
   matrices <- list()
@@ -65,7 +66,7 @@ getPredictionsConfMatrix<-function(formula,train_md,validate_md,test_md_orig,neu
   
   #test_md <- test_md_orig[test_md_orig$Transformation %in% transformations[i],]
   test_md <- test_md_orig
-  confMatrix <- getConfusionMatrixNZnew(model,test_md,validate_md,neutralZone,transAll)
+  confMatrix <- getConfusionMatrixNZnew(model,test_md,validate_md,neutralZone,transAll,algorithm)
   transNeutralZoneMatrix <- cbind(transNeutralZoneMatrix,confMatrix$confMatrix)
   
   matrices$transNeutralZoneMatrix <- transNeutralZoneMatrix
@@ -76,12 +77,13 @@ getPredictionsConfMatrix<-function(formula,train_md,validate_md,test_md_orig,neu
 
 
 
-getConfusionMatrixNZnew <- function(model,test_md,validate_md,neutralZone,transAll){
+getConfusionMatrixNZnew <- function(model,test_md,validate_md,neutralZone,transAll,algorithm){
   results <- list()
   if(dim(test_md)[1]>0){
-    predicted <- predict(model,test_md,OOB=TRUE)[,1] # predictions
-    #print(class(model))
-    #predicted <- predict(model, test_md[!rowSums(is.na(test_md)),])
+    
+    if(algorithm == "randomForest") predicted <- predict(model,test_md,OOB=TRUE)
+    else if(algorithm == "cforest") predicted <- predict(model,test_md,OOB=TRUE)[,1] # predictions
+    
 
     #predicted <- rep(0.1,dim(test_md)[1]) #TEST
     real <- test_md$response #real accuracies
