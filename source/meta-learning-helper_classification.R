@@ -1,6 +1,6 @@
 library("rpart")
 library("caret")
-#library("randomForest")
+library("randomForest")
 library("party")
 source("utilityFunctions.R")
 #library("e1071")

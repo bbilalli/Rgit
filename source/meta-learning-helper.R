@@ -1,13 +1,13 @@
 library("rpart")
 library("caret")
-#library("randomForest")
+library("randomForest")
 library("party")
 source("utilityFunctions.R")
 #library("e1071")
 
 set.seed(111)
 #it needs to change for performing the validation on deltas!!!
-performValidation <-function(md.ds_allTrans,md.trans_allTrans,neutralZone=0,folds="10Fold",transformation=NULL,nrTrees){
+performValidation <-function(md.ds_allTrans,md.trans_allTrans,neutralZone=0,folds="10Fold",transformation=NULL,nrTrees,algorithm){
   if(transformation != "All"){
     md.trans <- md.trans_allTrans[md.trans_allTrans$Transformation == transformation,]
     md.ds <- md.ds_allTrans[md.ds_allTrans$Dataset %in% md.trans$Dataset,]

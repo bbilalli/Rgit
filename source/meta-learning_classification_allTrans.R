@@ -27,7 +27,8 @@ if(alg %in% algs){
   if(alg =="weka.IBk") t<-0 else t <- 0.0001
   
   md.trans <- convertToClassification(new.md$md.trans,t) #if IBK it should be 0
-  
+  print("Missing Values:")
+  print(sum(is.na(md.trans))) 
   if(ml_alg =="randomForest") md.trans <- cbind(md.trans[,1:3],na.roughfix(md.trans[,4:dim(md.trans)[2]]))
   #for(i in 2:length(trans)){
   i= 1
@@ -36,7 +37,7 @@ if(alg %in% algs){
                                                  neutralZone=0,
                                                  folds="LOOV",
                                                  transformation=trans[i],
-                                                 nrTrees = 100,
+                                                 nrTrees = 1,
                                                  algorithm = ml_alg)
   
  	writeToFile(validation$transNeutralZonesResults,alg,paste(alg,trans[i],sep = "_"),"confMatrix")
