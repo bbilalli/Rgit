@@ -65,7 +65,7 @@ delta_meta_features <- paste(meta_features,"_delta",sep="")
 #read the file which consists either of latent features or normal features,dataset,transformation,metadata/latent,response
 readFile<-function(algName,readDelta=FALSE){
   if(!readDelta){
-    file <- paste(c("D://csi//",algName,"_MD.csv"),collapse="")
+    file <- paste(c("..//md//originalMetadatasets//",algName,"_MD.csv"),collapse="")
     md <- read.csv(file, header=TRUE, dec=".", sep=",",colClasses= c(rep("character",4),rep("numeric",61),rep("numeric",6)))
     return(md)
   } else {
