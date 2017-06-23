@@ -8,11 +8,11 @@ declare -a metaLearners=('randomForest_RandomFeatures' 'randomForest_AllFeatures
 if [ "$1" = "regression" ]
 then
     echo $1
-	#parallel Rscript meta-learning.R {} ::: ${algs[*]} ::: ${metaLearners[*]}#run the .R file in parallel with the arguments given by the array
+	parallel Rscript meta-learning.R {} ::: ${algs[*]} ::: ${metaLearners[*]}#run the .R file in parallel with the arguments given by the array
 elif [ "$1" = "classification" ]
 then
 	echo $1
-	#parallel Rscript meta-learning_classification_allTrans.R {} ::: ${algs[*]} ::: ${metaLearners[*]} #run the .R file in parallel with the arguments given by the array
+	parallel Rscript meta-learning_classification_allTrans.R {} ::: ${algs[*]} ::: ${metaLearners[*]} #run the .R file in parallel with the arguments given by the array
 else
 	echo "Please type either [regression] or [classification] as input parameter"
 fi
