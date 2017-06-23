@@ -37,7 +37,7 @@ if(alg %in% algs){
                                                  neutralZone=0,
                                                  folds="LOOV",
                                                  transformation=trans[i],
-                                                 nrTrees = 1,
+                                                 nrTrees = 100,
                                                  algorithm = ml_alg)
   
  	writeToFile(validation$transNeutralZonesResults,alg,paste(alg,trans[i],sep = "_"),"confMatrix",ml_alg)
