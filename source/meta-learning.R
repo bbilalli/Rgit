@@ -10,7 +10,7 @@ algs <- c("weka.J48","weka.NaiveBayes","weka.JRip","weka.PART","weka.IBk","weka.
 
 alg <- args[1]
 trans <- c("All",transformations)
-ml_alg <- "randomForest"
+ml_alg <- "cforest"
 #if(alg == "weka.J48") {trans <- c("All",transformationsJ48)} else 
 #if(alg == "weka.PART") {trans <- c("All",transformationsPART)} else 
 #if(alg == "weka.IBk") {trans <- c("All",transformationsIBk)} else 

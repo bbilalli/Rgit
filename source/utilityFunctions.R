@@ -69,7 +69,7 @@ readFile<-function(algName,readDelta=FALSE){
     md <- read.csv(file, header=TRUE, dec=".", sep=",",colClasses= c(rep("character",4),rep("numeric",61),rep("numeric",6)))
     return(md)
   } else {
-    file <- paste(c("..//md//relativeImp//scaled_moreNA//",algName,"_MD_DELTA.csv"),collapse="")
+    file <- paste(c("..//md//relativeImp//relativeMetaFeatures//scaled_moreNA//",algName,"_MD_DELTA.csv"),collapse="")
     md <- read.csv(file, header=TRUE, dec=".", sep=",",colClasses= c(rep("character",4),rep("numeric",61),rep("numeric",6),rep("numeric",61),rep("numeric",6)))
     return(md)
   }
@@ -121,7 +121,11 @@ getFormulaFromTrainingData <- function(train_md){
   latent.features <- colnames(train_md[,sapply(train_md, is.numeric)])
   if(length(latent.features>0)){
     latent.features <- head(latent.features,-1) #remove the last feature (the response)
-    formula <- paste(latent.features, collapse="+")
+    delta.latent.features <- unname(sapply(head(latent.features,-1),function(x) paste(c(x,"delta"),collapse="_")))
+    
+    #all.latent.features <- c(latent.features,delta.latent.features)
+    all.latent.features <- delta.latent.features #when we want to use only the deltas(relative deltas)
+    formula <- paste(all.latent.features, collapse="+")
     formula <- as.formula(paste("response ~",formula,sep=""))
     return(formula)
   } else print("No latent features!")

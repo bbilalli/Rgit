@@ -9,7 +9,7 @@ source("meta-learning-helper_classification.R")
 algs <- c("weka.J48","weka.NaiveBayes","weka.JRip","weka.PART","weka.IBk","weka.Logistic")
 trans <- c("All",transformations)
 alg <- args[1]
-ml_alg <- "randomForest"
+ml_alg <- "cforest"
     
 if(alg %in% algs){
   
@@ -37,7 +37,7 @@ if(alg %in% algs){
                                                  neutralZone=0,
                                                  folds="LOOV",
                                                  transformation=trans[i],
-                                                 nrTrees = 1,
+                                                 nrTrees = 100,
                                                  algorithm = ml_alg)
   
  	writeToFile(validation$transNeutralZonesResults,alg,paste(alg,trans[i],sep = "_"),"confMatrix")

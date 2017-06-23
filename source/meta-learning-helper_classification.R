@@ -28,6 +28,7 @@ set.seed(111)
   #print(folds)
   folds.results <- list()
   formula <- getFormulaFromTrainingData(md.ds)
+  print(formula)
   for(i in 1:length(folds)){ #10){#
     print(i)
     validate_md <- md.ds[folds[[i]],] #the rows of the fold, actually the datasets before the transformations are applied
@@ -61,8 +62,8 @@ getFolds <- function(datasets_md,folds="LOOV"){
 
 getPredictionsConfMatrix<-function(formula,train_md,validate_md,test_md_orig,neutralZone,nrTrees,transAll,algorithm){
   
-  if(algorithm == "randomForest") model <- randomForest(formula,data=train_md,ntree=nrTrees, mtry = (length(formula)-1))
-  else if(algorithm =="cforest") model <- cforest(formula,data=train_md,controls = cforest_control(ntree=nrTrees, mtry = (length(formula)-1)))
+  if(algorithm == "randomForest") model <- randomForest(formula,data=train_md,ntree=nrTrees)#, mtry = (length(formula)-1))
+  else if(algorithm =="cforest") model <- cforest(formula,data=train_md,controls = cforest_control(ntree=nrTrees))#, mtry = (length(formula)-1)))
   #model <- svm(formula,data=train_md)
   
   matrices <- list()

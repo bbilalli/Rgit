@@ -29,7 +29,7 @@ createDeltaMD <- function(algName,useOrigDS=TRUE){
 }
 
 createDeltaMDscaled <- function(algName,useOrigDS=TRUE){
-  file.to.write <-paste(c("..//md//relativeImp//relativeMetaFeatures//scaled_lessNA//",algName,"_MD_DELTA.csv"),collapse="")
+  file.to.write <-paste(c("..//md//relativeImp//relativeMetaFeatures//scaled_moreNA//",algName,"_MD_DELTA.csv"),collapse="")
   #file.to.write <- file(description=paste(c(algName,"_MD_DELTA.csv"),collapse=""), "w")
   print(file.to.write)
   md.ds <- getDS(algName,FALSE)
@@ -45,7 +45,7 @@ createDeltaMDscaled <- function(algName,useOrigDS=TRUE){
   md.trans <- cbind(md.trans[,c(1:4)],scaled.md.trans,md.trans[,c(67:71)])
   print(dim(md.trans))
   #return(md.trans)
-  for(i in 1:10{#dim(md.ds)[1]){
+  for(i in 1:dim(md.ds)[1]){
     ds <- md.ds[i,]$Dataset
     print(ds)
     trans.per.ds <- md.trans[md.trans$Dataset %in% ds,]
@@ -77,8 +77,8 @@ createDeltaRowWithRelativeMetaFeatures <- function(ds.transformed,ds,start,end){
   mf.names <- names(ds.transformed)[mf.to.select]
   dsVals <- ds[,mf.to.select]
   
-  mf.delta <- ds.transformed[,mf.to.select] - replace(dsVals,which(is.na(dsVals)),0) #replace NA with 0, to generate less_NA
-  #mf.delta <- ds.transformed[,mf.to.select] - dsVals # to generate more_NA
+  #mf.delta <- ds.transformed[,mf.to.select] - replace(dsVals,which(is.na(dsVals)),0) #replace NA with 0, to generate less_NA
+  mf.delta <- ds.transformed[,mf.to.select] - dsVals # to generate more_NA
   mf.delta <- mf.delta/replace(dsVals,which(is.na(dsVals)),0) # calculate the relative features (all of them, including the performance measures)
   names(mf.delta) <- paste(mf.names,"_delta",sep="")
   #print(names(mf.delta))
@@ -92,7 +92,7 @@ createDeltaRowWithRelativeMetaFeatures <- function(ds.transformed,ds,start,end){
 
 algs <- c("weka.J48","weka.NaiveBayes","weka.JRip","weka.PART","weka.IBk","weka.Logistic")
 
-alg <- args[i]
+alg <- args[1]
 if(alg %in% algs){
   md.dl <- createDeltaMDscaled(alg)
 }

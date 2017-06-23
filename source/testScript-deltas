@@ -1,0 +1,4 @@
+#!/bin/bash
+#declare -a algs=('weka.J48' 'weka.NaiveBayes' 'weka.JRip' 'weka.PART' 'weka.IBk' 'weka.Logistic')
+declare -a algs=('weka.PART' 'weka.Logistic')
+parallel Rscript utilityFunctions-deltas.R {} ::: ${algs[*]} #run the .R file in parallel with the arguments given by the array
