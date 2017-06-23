@@ -1,8 +1,8 @@
 #!/bin/bash
 declare -a algs=('weka.J48')
-declare -a metaLearners=('randomForestRandomFeatures' 'randomForestAllFeatures')
+declare -a metaLearners=('randomForest_RandomFeatures' 'randomForest_AllFeatures')
 #declare -a algs=('weka.J48' 'weka.NaiveBayes' 'weka.JRip' 'weka.IBk' 'weka.PART' 'weka.Logistic')
-#declare -a metaLearners=('randomForestRandomFeatures' 'cforestRandomFeatures' 'randomForestAllFeatures' 'cforestAllFeatures')
+#declare -a metaLearners=('randomForest_RandomFeatures' 'cforest_RandomFeatures' 'randomForest_AllFeatures' 'cforest_AllFeatures')
 
 
 if [ "$1" = "regression" ]
