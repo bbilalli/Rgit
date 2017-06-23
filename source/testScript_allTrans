@@ -1,8 +1,18 @@
 #!/bin/bash
 declare -a algs=('weka.J48' 'weka.NaiveBayes' 'weka.JRip' 'weka.IBk' 'weka.PART' 'weka.Logistic')
-#declare -a algs=('weka.J48')
-#declare -a algs=('weka.IBk')
-#declare -a algs=('weka.J48' 'weka.PART' 'weka.IBk')
-#parallel Rscript meta-learning.R {} ::: ${algs[*]} #run the .R file in parallel with the arguments given by the array
-parallel Rscript meta-learning_classification_allTrans.R {} ::: ${algs[*]} #run the .R file in parallel with the arguments given by the array
+declare -a metaLearners=('randomForest' 'cforest')
+declare -a missVal=('lessNA')
+
+if [ "$1" = "regression" ]
+then
+    echo $1
+	#parallel Rscript meta-learning.R {} ::: ${algs[*]} ::: ${metaLearners[*]} ::: ${missVal[*]} #run the .R file in parallel with the arguments given by the array
+fi
+
+if [ "$1" = "classification" ]
+then
+	echo $1
+	#parallel Rscript meta-learning_classification_allTrans.R {} ::: ${algs[*]} ::: ${metaLearners[*]} ::: ${missVal[*]} #run the .R file in parallel with the arguments given by the array
+fi
+
 #Rscript meta-learning.R ${algs[0]}

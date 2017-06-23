@@ -9,7 +9,7 @@ source("meta-learning-helper_classification.R")
 algs <- c("weka.J48","weka.NaiveBayes","weka.JRip","weka.PART","weka.IBk","weka.Logistic")
 trans <- c("All",transformations)
 alg <- args[1]
-ml_alg <- "cforest"
+ml_alg <- args[2]
     
 if(alg %in% algs){
   
