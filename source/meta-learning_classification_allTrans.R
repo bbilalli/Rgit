@@ -29,7 +29,7 @@ if(alg %in% algs){
   md.trans <- convertToClassification(new.md$md.trans,t) #if IBK it should be 0
   print("Missing Values:")
   print(sum(is.na(md.trans))) 
-  if(ml_alg =="randomForest") md.trans <- cbind(md.trans[,1:3],na.roughfix(md.trans[,4:dim(md.trans)[2]]))
+  if(strsplit(ml_alg,"_")[[1]][1] =="randomForest") md.trans <- cbind(md.trans[,1:3],na.roughfix(md.trans[,4:dim(md.trans)[2]]))
   #for(i in 2:length(trans)){
   i= 1
  	validation <- performValidation_classification(md.ds,
