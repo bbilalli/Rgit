@@ -62,8 +62,14 @@ getFolds <- function(datasets_md,folds="LOOV"){
 
 getPredictionsConfMatrix<-function(formula,train_md,validate_md,test_md_orig,neutralZone,nrTrees,transAll,algorithm){
   
-  if(algorithm == "randomForest") model <- randomForest(formula,data=train_md,ntree=nrTrees)#, mtry = (length(formula)-1))
-  else if(algorithm =="cforest") model <- cforest(formula,data=train_md,controls = cforest_control(ntree=nrTrees))#, mtry = (length(formula)-1)))
+  if(algorithm == "randomForestRandomFeatures") 
+    model <- randomForest(formula,data=train_md,ntree=nrTrees)
+  else if(algorithm =="randomForestAllFeatures")
+    model <- randomForest(formula,data=train_md,ntree=nrTrees, mtry = (length(formula)-1))
+  else if(algorithm =="cforestRandomFeatures")
+    model <- cforest(formula,data=train_md,controls = cforest_control(ntree=nrTrees))
+  else if(algorithm =="cforestAllFeatures") 
+    model <- cforest(formula,data=train_md,controls = cforest_control(ntree=nrTrees, mtry = (length(formula)-1)))
   #model <- svm(formula,data=train_md)
   
   matrices <- list()

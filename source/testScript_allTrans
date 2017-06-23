@@ -1,16 +1,18 @@
 #!/bin/bash
-declare -a algs=('weka.J48' 'weka.NaiveBayes' 'weka.JRip' 'weka.IBk' 'weka.PART' 'weka.Logistic')
-declare -a metaLearners=('randomForest' 'cforest')
-declare -a missVal=('lessNA')
+declare -a algs=('weka.J48')
+declare -a metaLearners=('randomForestRandomFeatures' 'randomForestAllFeatures')
+#declare -a algs=('weka.J48' 'weka.NaiveBayes' 'weka.JRip' 'weka.IBk' 'weka.PART' 'weka.Logistic')
+#declare -a metaLearners=('randomForestRandomFeatures' 'cforestRandomFeatures' 'randomForestAllFeatures' 'cforestAllFeatures')
+
 
 if [ "$1" = "regression" ]
 then
     echo $1
-	#parallel Rscript meta-learning.R {} ::: ${algs[*]} ::: ${metaLearners[*]} ::: ${missVal[*]} #run the .R file in parallel with the arguments given by the array
+	#parallel Rscript meta-learning.R {} ::: ${algs[*]} ::: ${metaLearners[*]}#run the .R file in parallel with the arguments given by the array
 elif [ "$1" = "classification" ]
 then
 	echo $1
-	#parallel Rscript meta-learning_classification_allTrans.R {} ::: ${algs[*]} ::: ${metaLearners[*]} ::: ${missVal[*]} #run the .R file in parallel with the arguments given by the array
+	#parallel Rscript meta-learning_classification_allTrans.R {} ::: ${algs[*]} ::: ${metaLearners[*]} #run the .R file in parallel with the arguments given by the array
 else
 	echo "Please type either [regression] or [classification] as input parameter"
 fi

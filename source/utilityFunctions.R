@@ -69,7 +69,7 @@ readFile<-function(algName,readDelta=FALSE){
     md <- read.csv(file, header=TRUE, dec=".", sep=",",colClasses= c(rep("character",4),rep("numeric",61),rep("numeric",6)))
     return(md)
   } else {
-    file <- paste(c("..//md//relativeImp//scaled_moreNA//",algName,"_MD_DELTA.csv"),collapse="")
+    file <- paste(c("..//md//relativeImp//scaled_lessNA//",algName,"_MD_DELTA.csv"),collapse="")
     md <- read.csv(file, header=TRUE, dec=".", sep=",",colClasses= c(rep("character",4),rep("numeric",61),rep("numeric",6),rep("numeric",61),rep("numeric",6)))
     return(md)
   }
@@ -283,12 +283,19 @@ convertDFtoARFF <- function(ds,alg){
   return(ds)
 }
 
-writeToFile <- function(table,alg,fileName,whatToWrite){
+writeToFile <- function(table,alg,fileName,whatToWrite,mainFolder){
   #write.csv(table,paste(c(getwd(),fileName,".csv"),collapse=""))
+  dir.create(paste(c("..//results//",mainFolder,"//"),collapse=""))
+  dir.create(paste(c("..//results//",mainFolder,"//predictions//"),collapse=""))
   if(whatToWrite == "predictions")
-  {path  <- "..//results//predictions//"}
+  {
+    path <- paste(c("..//results//",mainFolder,"//predictions//"),collapse="")
+    #path  <- "..//results//predictions//"
+  }
   else {
-  path  <- "..//results//"}
+    path <- paste(c("..//results//",mainFolder,"//"),collapse="")
+    #path  <- "..//results//"
+    }
   
   if(!dir.exists(paste(c(path,alg,"//"),collapse=""))){
   	folderCreated <- dir.create(paste(c(path,alg,"//"),collapse=""))
