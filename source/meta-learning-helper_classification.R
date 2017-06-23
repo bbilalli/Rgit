@@ -62,13 +62,13 @@ getFolds <- function(datasets_md,folds="LOOV"){
 
 getPredictionsConfMatrix<-function(formula,train_md,validate_md,test_md_orig,neutralZone,nrTrees,transAll,algorithm){
   
-  if(algorithm == "randomForestRandomFeatures") 
+  if(algorithm == "randomForest_RandomFeatures") 
     model <- randomForest(formula,data=train_md,ntree=nrTrees)
-  else if(algorithm =="randomForestAllFeatures")
+  else if(algorithm =="randomForest_AllFeatures")
     model <- randomForest(formula,data=train_md,ntree=nrTrees, mtry = (length(formula)-1))
-  else if(algorithm =="cforestRandomFeatures")
+  else if(algorithm =="cforest_RandomFeatures")
     model <- cforest(formula,data=train_md,controls = cforest_control(ntree=nrTrees))
-  else if(algorithm =="cforestAllFeatures") 
+  else if(algorithm =="cforest_AllFeatures") 
     model <- cforest(formula,data=train_md,controls = cforest_control(ntree=nrTrees, mtry = (length(formula)-1)))
   #model <- svm(formula,data=train_md)
   
@@ -92,14 +92,14 @@ getConfusionMatrixNZnew <- function(model,test_md,validate_md,neutralZone,transA
   results <- list()
   if(dim(test_md)[1]>0){
     
-    if(algorithm == "randomForest"){
+    if(strsplit(algorithm,"_")[[1]][1] == "randomForest"){
       predicted <- predict(model,test_md,OOB=TRUE)
       predictionsAsProb <- predict(model,test_md,type="prob")
       negativeProb <- predictionsAsProb[,1]
       poositiveProb <- predictionsAsProb[,2]
       neutralProb <- predictionsAsProb[,3]
     }
-    else if(algorithm == "cforest"){
+    else if(strsplit(algorithm,"_")[[1]][1] == "cforest"){
       predicted <- predict(model,test_md,OOB=TRUE)
       predictionsAsProb <- predict(model,test_md,type="prob",OOB=TRUE) #TO DO: check  the probabilities 
       negativeProb <- sapply(predictionsAsProb,function(x){x[,1]})
