@@ -7,12 +7,12 @@ if [ "$1" = "regression" ]
 then
     echo $1
 	#parallel Rscript meta-learning.R {} ::: ${algs[*]} ::: ${metaLearners[*]} ::: ${missVal[*]} #run the .R file in parallel with the arguments given by the array
-fi
-
-if [ "$1" = "classification" ]
+elif [ "$1" = "classification" ]
 then
 	echo $1
 	#parallel Rscript meta-learning_classification_allTrans.R {} ::: ${algs[*]} ::: ${metaLearners[*]} ::: ${missVal[*]} #run the .R file in parallel with the arguments given by the array
+else
+	echo "Please type either [regression] or [classification] as input parameter"
 fi
 
 #Rscript meta-learning.R ${algs[0]}
