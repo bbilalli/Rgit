@@ -67,7 +67,6 @@ getPredictionsConfMatrix<-function(formula,train_md,validate_md,test_md_orig,neu
   else if(algorithm =="cforest_AllFeatures") 
     model <- cforest(formula,data=train_md,controls = cforest_control(ntree=nrTrees, mtry = (length(formula)-1)))
   
-  
   matrices <- list()
   transNeutralZoneMatrix <- matrix(0,ncol=1,nrow=7) # the matrix which will contain the results for every transformation for all its neutral zones
   
