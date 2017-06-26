@@ -69,7 +69,7 @@ readFile<-function(algName,readDelta=FALSE){
     md <- read.csv(file, header=TRUE, dec=".", sep=",",colClasses= c(rep("character",4),rep("numeric",61),rep("numeric",6)))
     return(md)
   } else {
-    file <- paste(c("..//md//relativeImp//scaled_lessNA//",algName,"_MD_DELTA.csv"),collapse="")
+    file <- paste(c("..//md//relativeImp//scaled_moreNA//",algName,"_MD_DELTA.csv"),collapse="")
     md <- read.csv(file, header=TRUE, dec=".", sep=",",colClasses= c(rep("character",4),rep("numeric",61),rep("numeric",6),rep("numeric",61),rep("numeric",6)))
     return(md)
   }

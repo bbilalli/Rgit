@@ -44,9 +44,9 @@ if(alg %in% algs){
     
     fileName <- paste(alg,trans[i],sep = "_")
     
-    writeToFile(validation$transNeutralZonesResults,alg,fileName,"confMatrix")
-    validation$predictions[,4] <- as.numeric(as.character(validation$predictions[,4]))
-    writeToFile(validation$predictions,alg,paste(alg,trans[i],sep = "_"),"predictions")
+    writeToFile(validation$transNeutralZonesResults,alg,fileName,"confMatrix",ml_alg)
+    #validation$predictions[,4] <- as.numeric(as.character(validation$predictions[,4]))
+    writeToFile(validation$predictions,alg,paste(alg,trans[i],sep = "_"),"predictions",ml_alg)
   #}
   #}
   

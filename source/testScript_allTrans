@@ -1,13 +1,14 @@
 #!/bin/bash
 
 declare -a algs=('weka.J48' 'weka.NaiveBayes' 'weka.JRip' 'weka.IBk' 'weka.PART' 'weka.Logistic')
-declare -a metaLearners=('randomForest_RandomFeatures' 'cforest_RandomFeatures' 'randomForest_AllFeatures' 'cforest_AllFeatures')
+#declare -a metaLearners=('randomForest_RandomFeatures' 'cforest_RandomFeatures' 'randomForest_AllFeatures' 'cforest_AllFeatures')
+declare -a metaLearners=('randomForest_RandomFeatures' 'randomForest_AllFeatures')
 
 
 if [ "$1" = "regression" ]
 then
     echo $1
-	parallel Rscript meta-learning_regression_allTrans.R {} ::: ${algs[*]} ::: ${metaLearners[*]}#run the .R file in parallel with the arguments given by the array
+    parallel Rscript meta-learning_regression_allTrans.R {} ::: ${algs[*]} ::: ${metaLearners[*]} #run the .R file in parallel with the arguments given by the array
 elif [ "$1" = "classification" ]
 then
 	echo $1
