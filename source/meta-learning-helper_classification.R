@@ -27,7 +27,8 @@ set.seed(111)
   folds <- getFolds(md.ds,folds) #gives back the row/rows of a fold
   #print(folds)
   folds.results <- list()
-  formula <- getFormulaFromTrainingData(md.ds)
+  ###formula <- getFormulaFromTrainingData_latentMF(md.ds)
+  formula <- getFormulaFromTrainingData_origMF(md.trans)
   print(formula)
   for(i in 1:length(folds)){ #10){#
     print(i)

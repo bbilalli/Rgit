@@ -10,6 +10,7 @@ algs <- c("weka.J48","weka.NaiveBayes","weka.JRip","weka.PART","weka.IBk","weka.
 trans <- c("All",transformations)
 alg <- args[1]
 ml_alg <- args[2]
+  ##"randomForest_RandomFeatures"
     
 if(alg %in% algs){
   
@@ -17,19 +18,26 @@ if(alg %in% algs){
   md.trans <- getTransformations(alg,readDelta=TRUE,"")
   
   #it used to be md.ds instead of md.trans
-  pca <- performPCA(md.trans,variance=90,old=FALSE,deltas=FALSE)
-  md.rot <- performVarimax(pca$md.pca,ncomp=pca$ncomp)
+  ###pca <- performPCA(md.trans,variance=90,old=FALSE,deltas=FALSE)
+  ###md.rot <- performVarimax(pca$md.pca,ncomp=pca$ncomp)
   
-  md.latent <- performFeatureExtraction(md.rot,md.ds,md.trans,measure ="pa",sign=0.05,withWeights=FALSE,union=FALSE)
-  new.md <-prepareMetaFeatures(md.latent$latent.ds,md.latent$latent.trans,md.ds,md.trans,"pa_delta")
+  ###md.latent <- performFeatureExtraction(md.rot,md.ds,md.trans,measure ="pa",sign=0.05,withWeights=FALSE,union=FALSE)
+  ###new.md <-prepareMetaFeatures(md.latent$latent.ds,md.latent$latent.trans,md.ds,md.trans,"pa_delta")
+  ###md.ds <- new.md$md.ds
   
-  md.ds <- new.md$md.ds
+  #newly added
+  md.trans <- prepareMetadataset(md.trans,keptMeasure="pa")
+  
+  
   if(alg =="weka.IBk") t<-0 else t <- 0.0001
+  md.trans <- convertToClassification(md.trans,t) #if IBK it should be 0
   
-  md.trans <- convertToClassification(new.md$md.trans,t) #if IBK it should be 0
+  
   print("Missing Values:")
   print(sum(is.na(md.trans))) 
-  if(strsplit(ml_alg,"_")[[1]][1] =="randomForest") md.trans <- cbind(md.trans[,1:3],na.roughfix(md.trans[,4:dim(md.trans)[2]]))
+
+  ###if(strsplit(ml_alg,"_")[[1]][1] =="randomForest") md.trans <- cbind(md.trans[,1:3],na.roughfix(md.trans[,4:dim(md.trans)[2]]))
+  if(strsplit(ml_alg,"_")[[1]][1] =="randomForest") md.trans <- cbind(md.trans[,1:4],na.roughfix(md.trans[,5:dim(md.trans)[2]]))
   #for(i in 2:length(trans)){
   i= 1
  	validation <- performValidation_classification(md.ds,

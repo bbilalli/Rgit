@@ -24,7 +24,8 @@ performValidation <-function(md.ds_allTrans,md.trans_allTrans,neutralZone=0,fold
   #print(folds)
   folds.results <- list()
   print(formula)
-  formula <- getFormulaFromTrainingData(md.ds)
+  ###formula <- getFormulaFromTrainingData_latentMF(md.ds)
+  formula <- getFormulaFromTrainingData_origMF(md.trans)
   for(i in 1:length(folds)){ #10){#
     print(i)
     validate_md <- md.ds[folds[[i]],] #the rows of the fold, actually the datasets before the transformations are applied

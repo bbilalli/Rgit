@@ -117,19 +117,32 @@ getPredictionsFromFile <- function(algName,trans){
   return(md)
 }
 
-getFormulaFromTrainingData <- function(train_md){
+getFormulaFromTrainingData_latentMF <- function(train_md){
   latent.features <- colnames(train_md[,sapply(train_md, is.numeric)])
   if(length(latent.features>0)){
     latent.features <- head(latent.features,-1) #remove the last feature (the response)
     delta.latent.features <- unname(sapply(head(latent.features,-1),function(x) paste(c(x,"delta"),collapse="_")))
     
-    #all.latent.features <- c(latent.features,delta.latent.features)
-    all.latent.features <- delta.latent.features #when we want to use only the deltas(relative deltas)
+    all.latent.features <- c(latent.features,delta.latent.features)
+    ##all.latent.features <- delta.latent.features #when we want to use only the deltas(relative deltas)
     formula <- paste(all.latent.features, collapse="+")
+    print(formula)
     formula <- as.formula(paste("response ~",formula,sep=""))
     return(formula)
   } else print("No latent features!")
 }
+
+getFormulaFromTrainingData_origMF <- function(train_md){
+  
+  meta_features <- colnames(train_md[,sapply(train_md,is.numeric)])
+  if(length(meta_features>0)){
+    all.meta.features <- head(meta_features,-1) #remove the last feature (the response)
+    formula <- paste(all.meta.features, collapse="+")
+    formula <- as.formula(paste("response ~",formula,sep=""))
+    return(formula)
+  } else print("No latent features!")
+}
+
 
 replaceMeaninglessValsWithNA <- function(x){
   x[x$NumberOfNumericFeatures==0,pureNumericalChars]<-NaN
@@ -308,4 +321,14 @@ if(whatToWrite == "predictions"){
   write.csv(table,paste(c(folder,fileName,".csv"),collapse=""),row.names=FALSE)}
   else{
   write.csv(table,paste(c(folder,fileName,".csv"),collapse=""))}
+}
+
+
+prepareMetadataset <- function(md.trans,keptMeasure="pa"){
+  
+  colnames(md.trans)[which(colnames(md.trans)==paste(keptMeasure,"_delta",sep=""))] <- "response"
+  toBeRemovedMeasures <- setdiff(measures,keptMeasure)
+  toBeRemovedFeatures <- c(toBeRemovedMeasures,paste(toBeRemovedMeasures,"_delta",sep=""))
+  toBeRemovedFeatureIndexes <- which(colnames(md.trans) %in% toBeRemovedFeatures)
+  return(md.trans[,-toBeRemovedFeatureIndexes])  
 }
